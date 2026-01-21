@@ -17,18 +17,11 @@ Author  : Md Aryaan Raza
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include "student.h"
 
 #define SUBJECTS 3
 
-struct Student
-{
-    char name[35];
-    int roll;
-    int marks[SUBJECTS];
-    int total;
-    float avg;
-    char grade;
-};
+
 
 int isNumber(char *str)
 {
