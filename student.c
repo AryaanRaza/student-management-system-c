@@ -1,0 +1,298 @@
+/*
+------------------------------------------------------------
+Program : Student Progress Report System
+Language: C
+Concepts Used:
+ - Structures
+ - Dynamic Memory Allocation (malloc / realloc / free)
+ - Menu-driven programming
+ - Searching and deletion in arrays
+ - Modular programming
+
+Author  : Md Aryaan Raza
+------------------------------------------------------------
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+#define SUBJECTS 3
+
+struct Student
+{
+    char name[35];
+    int roll;
+    int marks[SUBJECTS];
+    int total;
+    float avg;
+    char grade;
+};
+
+int isNumber(char *str)
+{
+    if (str[0] == '\0') // empty input
+        return 0;
+
+    for (int i = 0; str[i] != '\0'; i++)
+    {
+        if (str[i] < '0' || str[i] > '9')
+            return 0; // false, not a number
+    }
+
+    return 1; // true, valid number
+}
+
+int safeInputInt(const char *prompt, int min, int max)
+{
+    char input[100];
+    int value = 0, len, i;
+
+    while (1)
+    {
+        printf("%s", prompt);
+        // Input from user as string to avoid crashing if user gives string instead of int.
+
+        fgets(input, sizeof(input), stdin);
+
+        // Remove new line.
+        len = strlen(input);
+        if (len > 0 && input[len - 1] == '\n')
+            input[len - 1] = '\0';
+
+        // Check if number is Valid
+        if (!isNumber(input))
+        {
+            printf("Invalid input! Please enter a valid integer.\n");
+            continue;
+        }
+
+        // Convert to Integer
+        value = atoi(input);
+
+        // Checks Rangs
+        if (value < min || value > max)
+        {
+            printf("Please enter a number between %d and %d.\n", min, max);
+            continue; // ask again
+        }
+        return value; // valid input, return it
+    }
+}
+
+int searchByRoll(struct Student *stu, int count, int roll)
+{
+    for (int i = 0; i < count; i++)
+    {
+        if (stu[i].roll == roll)
+            return i;
+    }
+    return -1;
+}
+
+void searchByName(struct Student *stu, int count, char *name)
+{
+    int found = 0;
+    for (int i = 0; i < count; i++)
+    {
+        // strcmp returns 0 if strings match
+        if (strcasecmp(stu[i].name, name) == 0)
+        {
+            printf("\nStudent Found: Roll %d, Grade %c", stu[i].roll, stu[i].grade);
+            found = 1; // Mark as found
+            break;     // STOP the loop immediately
+        }
+    }
+    if (!found)
+        printf("\nName not Present");
+}
+
+// takes n as pointer to update the actual n after deletion
+void deleteRoll(struct Student *stu, int *count, int roll)
+{
+    int position = searchByRoll(stu, *count, roll);
+    if (position == -1)
+        printf("\nRoll number not present");
+
+    else
+    {
+        for (int i = position; i < (*count) - 1; i++)
+        {
+            stu[i] = stu[i + 1];
+        }
+        (*count)--;
+        printf("\nRecord deleted successfully.");
+    }
+}
+
+void inputMarks(struct Student *stu, int i)
+{
+    for (int j = 0; j < SUBJECTS; j++)
+    {
+        char prompt[50];
+        sprintf(prompt, "        Subject %d (0-100): ", j + 1);
+        stu[i].marks[j] = safeInputInt(prompt, 0, 100);
+
+        stu[i].total += stu[i].marks[j];
+    }
+}
+
+void assigngrade(struct Student *stu, int i)
+{
+    /* Assign grade */
+    if (stu[i].avg >= 90 && stu[i].avg <= 100)
+        stu[i].grade = 'A';
+
+    else if (stu[i].avg >= 80 && stu[i].avg < 90)
+        stu[i].grade = 'B';
+
+    else if (stu[i].avg >= 70 && stu[i].avg < 80)
+        stu[i].grade = 'C';
+
+    else if (stu[i].avg >= 60 && stu[i].avg < 70)
+        stu[i].grade = 'D';
+
+    else if (stu[i].avg >= 50 && stu[i].avg < 60)
+        stu[i].grade = 'E';
+
+    else
+        stu[i].grade = 'F';
+}
+
+struct Student *resizeStudents(struct Student *stu, int *capacity)
+{
+    *capacity = (*capacity) * 2;
+    struct Student *temp = (struct Student *)realloc(stu, (*capacity) * sizeof(struct Student));
+
+    if (temp == NULL)
+    {
+        printf("\nMemory allocation failed");
+        return stu; // Return the original pointer if failed
+    }
+    return temp; // Return the new address
+}
+
+struct Student *addStudent(struct Student *stu, int *capacity, int *count)
+{
+
+    if (*count == *capacity)
+    {
+        stu = resizeStudents(stu, capacity);
+    }
+
+    printf("\nEnter the details  :\n");
+    int i = *count;
+    stu[i].total = 0;
+    printf("        Name : ");
+    fgets(stu[i].name, sizeof(stu[i].name), stdin);
+    stu[i].name[strcspn(stu[i].name, "\n")] = '\0'; // remove newline
+
+    /* Read unique roll number */
+    while (1)
+    {
+        stu[i].roll = safeInputInt("        Roll : ", 1, 500);
+        // Explicitly check for -1 to ensure index 0 is recognized as "found"
+        if (searchByRoll(stu, *count, stu[i].roll) != -1) // Pass value, not address
+            printf("Roll already present , enter a unique roll number.\n");
+        else
+            break;
+    }
+
+    /* Read marks */
+    printf("        Marks for--\n");
+    inputMarks(stu, i);
+
+    /* Calculate average */
+    stu[i].avg = (float)stu[i].total / SUBJECTS;
+    assigngrade(stu, i);
+
+    (*count)++;
+    return stu; // Return the pointer back to main
+}
+
+void viewStudent(struct Student *stu, int count)
+{
+    printf("\n        ----------STUDENT DETAILS----------\n");
+    printf("Name\tRoll\tMaths\tPhy\tChem\tTotal\tAvgerage\tGrade\n");
+    for (int i = 0; i < count; i++)
+    {
+        printf("%s\t", stu[i].name);
+        printf("%d\t", stu[i].roll);
+        for (int j = 0; j < 3; j++)
+            printf("%d\t", stu[i].marks[j]);
+        printf("%d\t", stu[i].total);
+        printf("%.2f\t\t", stu[i].avg);
+        printf("%c\t", stu[i].grade);
+
+        printf("\n");
+    }
+}
+
+int main()
+{
+    int choice;
+    struct Student *stu;
+    int count = 0;
+    int capacity = 3;
+    stu = (struct Student *)malloc(capacity * sizeof(struct Student));
+
+    if (stu == NULL)
+    {
+        printf("\nMemory allocation failed");
+        exit(1);
+    }
+    char name[34];
+    int roll, res;
+    printf("\n      ----------MENU----------\n");
+    while (1)
+    {
+        printf("\n  1 to ADD\n  2 to View\n  3 to Search by name\n  4 to to Search by roll\n  5 to Delete\n  6 to Exit");
+        choice = safeInputInt("\n Your choice : ", 1, 6);
+
+        switch (choice)
+        {
+        case 1:
+            stu = addStudent(stu, &capacity, &count);
+            break;
+
+        case 2:
+            viewStudent(stu, count);
+            break;
+
+        case 3:
+
+            printf("\n Enter the name to search : ");
+            fgets(name, sizeof(name), stdin);
+            name[strcspn(name, "\n")] = '\0'; // remove newline
+            searchByName(stu, count, name);
+            break;
+
+        case 4:
+            
+            roll = safeInputInt("\n Enter the roll to search : ",1, 500);
+            res = searchByRoll(stu, count, roll);
+            if (res != -1)
+                printf("\nStudent Found: Name : %s , Grade : %c", stu[res].name, stu[res].grade);
+
+            else
+                printf("\nRoll not present");
+            break;
+
+        case 5:
+            roll = safeInputInt("\n Enter the roll to delete : ",1, 500);
+            deleteRoll(stu, &count, roll);
+            break;
+
+        case 6:
+            free(stu);
+            printf("\nMemory freed. Exiting program.");
+            exit(0);
+            break;
+
+        default:
+            printf("\nWrong entry, Try again !");
+        }
+    }
+    return 0;
+}
