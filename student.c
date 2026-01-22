@@ -79,17 +79,6 @@ void inputMarks(struct Student *stu, int i)
     }
 }
 
-void assigngrade_single(struct Student *s)
-{
-    if (s->avg >= 90) s->grade = 'A';
-    else if (s->avg >= 80) s->grade = 'B';
-    else if (s->avg >= 70) s->grade = 'C';
-    else if (s->avg >= 60) s->grade = 'D';
-    else if (s->avg >= 50) s->grade = 'E';
-    else s->grade = 'F';
-}
-
-
 struct Student *resizeStudents(struct Student *stu, int *capacity)
 {
     *capacity = (*capacity) * 2;
@@ -106,12 +95,20 @@ struct Student *resizeStudents(struct Student *stu, int *capacity)
 void calculateResult(struct Student *s)
 {
     s->total = 0;
+
     for (int i = 0; i < SUBJECTS; i++)
         s->total += s->marks[i];
 
     s->avg = (float)s->total / SUBJECTS;
-    assigngrade_single(s);
+
+    if (s->avg >= 90) s->grade = 'A';
+    else if (s->avg >= 80) s->grade = 'B';
+    else if (s->avg >= 70) s->grade = 'C';
+    else if (s->avg >= 60) s->grade = 'D';
+    else if (s->avg >= 50) s->grade = 'E';
+    else s->grade = 'F';
 }
+
 
 struct Student *addStudent(struct Student *stu, int *capacity, int *count)
 {
