@@ -22,10 +22,6 @@ Author  : Md Aryaan Raza
 
 #define SUBJECTS 3
 
-
-
-
-
 int searchByRoll(struct Student *stu, int count, int roll)
 {
     for (int i = 0; i < count; i++)
@@ -106,6 +102,7 @@ struct Student *resizeStudents(struct Student *stu, int *capacity)
     }
     return temp; // Return the new address
 }
+
 void calculateResult(struct Student *s)
 {
     s->total = 0;

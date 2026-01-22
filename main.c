@@ -39,7 +39,6 @@ int main()
             break;
 
         case 3:
-
             printf("\n Enter the name to search : ");
             fgets(name, sizeof(name), stdin);
             name[strcspn(name, "\n")] = '\0'; // remove newline
@@ -47,12 +46,10 @@ int main()
             break;
 
         case 4:
-
             roll = safeInputInt("\n Enter the roll to search : ", 1, 500);
             res = searchByRoll(stu, count, roll);
             if (res != -1)
                 printf("\nStudent Found: Name : %s , Grade : %c", stu[res].name, stu[res].grade);
-
             else
                 printf("\nRoll not present");
             break;

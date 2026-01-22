@@ -22,7 +22,7 @@ int isNumber(char *str)
 int safeInputInt(const char *prompt, int min, int max)
 {
     char input[100];
-    int value = 0, len, i;
+    int value = 0, len;
 
     while (1)
     {
