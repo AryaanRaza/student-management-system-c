@@ -20,7 +20,10 @@ void saveStudentsToFile(const char *filename, struct Student *stu, int count)
         for (int j = 0; j < SUBJECTS; j++)
             fprintf(fp, "|%d", stu[i].marks[j]);
 
-        fprintf(fp, "\n");
+        fprintf(fp, "|%d|%.2f|%c\n",
+                stu[i].total,
+                stu[i].avg,
+                stu[i].grade);
     }
     fclose(fp);
 }
@@ -44,14 +47,12 @@ struct Student *loadStudentsFromFile(
             break;
 
         for (int i = 0; i < SUBJECTS; i++)
-        {
-            if (fscanf(fp, "|%d", &temp.marks[i]) != 1)
-                goto done;
-        }
+            fscanf(fp, "|%d", &temp.marks[i]);
 
-        fscanf(fp, "\n");
-
-        calculateResult(&temp);
+        fscanf(fp, "|%d|%f| %c\n",
+               &temp.total,
+               &temp.avg,
+               &temp.grade);
 
         if (*count == *capacity)
             stu = resizeStudents(stu, capacity);
@@ -60,7 +61,7 @@ struct Student *loadStudentsFromFile(
         (*count)++;
     }
 
-done:
+
     fclose(fp);
     return stu;
 }
