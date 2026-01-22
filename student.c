@@ -101,14 +101,19 @@ void calculateResult(struct Student *s)
 
     s->avg = (float)s->total / SUBJECTS;
 
-    if (s->avg >= 90) s->grade = 'A';
-    else if (s->avg >= 80) s->grade = 'B';
-    else if (s->avg >= 70) s->grade = 'C';
-    else if (s->avg >= 60) s->grade = 'D';
-    else if (s->avg >= 50) s->grade = 'E';
-    else s->grade = 'F';
+    if (s->avg >= 90)
+        s->grade = 'A';
+    else if (s->avg >= 80)
+        s->grade = 'B';
+    else if (s->avg >= 70)
+        s->grade = 'C';
+    else if (s->avg >= 60)
+        s->grade = 'D';
+    else if (s->avg >= 50)
+        s->grade = 'E';
+    else
+        s->grade = 'F';
 }
-
 
 struct Student *addStudent(struct Student *stu, int *capacity, int *count)
 {
@@ -141,7 +146,7 @@ struct Student *addStudent(struct Student *stu, int *capacity, int *count)
     inputMarks(stu, i);
 
     /* Calculate average */
-   calculateResult(&stu[i]);
+    calculateResult(&stu[i]);
 
     (*count)++;
     return stu; // Return the pointer back to main
