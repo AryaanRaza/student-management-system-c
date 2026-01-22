@@ -20,5 +20,8 @@ void assigngrade(struct Student *stu, int i);
 struct Student *resizeStudents(struct Student *stu, int *capacity);
 struct Student *addStudent(struct Student *stu, int *capacity, int *count);
 void viewStudent(struct Student *stu, int count);
+int safeInputInt(const char *prompt, int min, int max);
+int searchByRoll(struct Student *stu, int count, int roll);
+
 
 #endif
