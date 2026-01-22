@@ -146,7 +146,6 @@ struct Student *addStudent(struct Student *stu, int *capacity, int *count)
     /* Calculate average */
    calculateResult(&stu[i]);
 
-
     (*count)++;
     return stu; // Return the pointer back to main
 }

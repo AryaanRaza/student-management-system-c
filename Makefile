@@ -1,7 +1,11 @@
+CC = gcc
 CFLAGS = -Wall -Wextra -std=c11
+
 TARGET = sms
 SRCS = main.c student.c input.c file.c
 OBJS = $(SRCS:.c=.o)
+
+all: $(TARGET)
 
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(TARGET)
@@ -9,6 +13,10 @@ $(TARGET): $(OBJS)
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Move the delete command down here!
+run: $(TARGET)
+	./$(TARGET)
+
 clean:
-	rm -f *.o *.exe
+	rm -f *.o $(TARGET)
+
+.PHONY: all run clean
