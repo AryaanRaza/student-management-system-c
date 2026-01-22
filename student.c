@@ -83,27 +83,16 @@ void inputMarks(struct Student *stu, int i)
     }
 }
 
-void assigngrade(struct Student *stu, int i)
+void assigngrade_single(struct Student *s)
 {
-    /* Assign grade */
-    if (stu[i].avg >= 90 && stu[i].avg <= 100)
-        stu[i].grade = 'A';
-
-    else if (stu[i].avg >= 80 && stu[i].avg < 90)
-        stu[i].grade = 'B';
-
-    else if (stu[i].avg >= 70 && stu[i].avg < 80)
-        stu[i].grade = 'C';
-
-    else if (stu[i].avg >= 60 && stu[i].avg < 70)
-        stu[i].grade = 'D';
-
-    else if (stu[i].avg >= 50 && stu[i].avg < 60)
-        stu[i].grade = 'E';
-
-    else
-        stu[i].grade = 'F';
+    if (s->avg >= 90) s->grade = 'A';
+    else if (s->avg >= 80) s->grade = 'B';
+    else if (s->avg >= 70) s->grade = 'C';
+    else if (s->avg >= 60) s->grade = 'D';
+    else if (s->avg >= 50) s->grade = 'E';
+    else s->grade = 'F';
 }
+
 
 struct Student *resizeStudents(struct Student *stu, int *capacity)
 {
@@ -116,6 +105,15 @@ struct Student *resizeStudents(struct Student *stu, int *capacity)
         return stu; // Return the original pointer if failed
     }
     return temp; // Return the new address
+}
+void calculateResult(struct Student *s)
+{
+    s->total = 0;
+    for (int i = 0; i < SUBJECTS; i++)
+        s->total += s->marks[i];
+
+    s->avg = (float)s->total / SUBJECTS;
+    assigngrade_single(s);
 }
 
 struct Student *addStudent(struct Student *stu, int *capacity, int *count)
@@ -149,8 +147,8 @@ struct Student *addStudent(struct Student *stu, int *capacity, int *count)
     inputMarks(stu, i);
 
     /* Calculate average */
-    stu[i].avg = (float)stu[i].total / SUBJECTS;
-    assigngrade(stu, i);
+   calculateResult(&stu[i]);
+
 
     (*count)++;
     return stu; // Return the pointer back to main
@@ -159,11 +157,11 @@ struct Student *addStudent(struct Student *stu, int *capacity, int *count)
 void viewStudent(struct Student *stu, int count)
 {
     printf("\n        ----------STUDENT DETAILS----------\n");
-    printf("Name\tRoll\tMaths\tPhy\tChem\tTotal\tAvgerage\tGrade\n");
+    printf("Roll\tName\tMaths\tPhy\tChem\tTotal\tAvgerage\tGrade\n");
     for (int i = 0; i < count; i++)
     {
-        printf("%s\t", stu[i].name);
         printf("%d\t", stu[i].roll);
+        printf("%s\t", stu[i].name);
         for (int j = 0; j < 3; j++)
             printf("%d\t", stu[i].marks[j]);
         printf("%d\t", stu[i].total);

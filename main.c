@@ -4,6 +4,7 @@
 
 #include "student.h"
 #include "input.h"
+#include "file.h"
 
 int main()
 {
@@ -12,6 +13,7 @@ int main()
     int count = 0;
     int capacity = 3;
     stu = (struct Student *)malloc(capacity * sizeof(struct Student));
+    stu = loadStudentsFromFile("students.txt",stu, &count, &capacity);
 
     if (stu == NULL)
     {
@@ -45,8 +47,8 @@ int main()
             break;
 
         case 4:
-            
-            roll = safeInputInt("\n Enter the roll to search : ",1, 500);
+
+            roll = safeInputInt("\n Enter the roll to search : ", 1, 500);
             res = searchByRoll(stu, count, roll);
             if (res != -1)
                 printf("\nStudent Found: Name : %s , Grade : %c", stu[res].name, stu[res].grade);
@@ -56,13 +58,14 @@ int main()
             break;
 
         case 5:
-            roll = safeInputInt("\n Enter the roll to delete : ",1, 500);
+            roll = safeInputInt("\n Enter the roll to delete : ", 1, 500);
             deleteRoll(stu, &count, roll);
             break;
 
         case 6:
+            saveStudentsToFile("students.txt", stu, count);
+            printf("\nData saved. Exiting program.\n");
             free(stu);
-            printf("\nMemory freed. Exiting program.");
             exit(0);
             break;
 
