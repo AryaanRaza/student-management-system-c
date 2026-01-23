@@ -173,11 +173,11 @@ void sortByName(struct Student *stu, int count)
 
 void normalizeName(char *name)
 {
-    if (name[0] > 'a' && name[0] < 'z')
+    if (name[0] >= 'a' && name[0] <= 'z')
         name[0] = toupper(name[0]);
 
     for (int i = 1; name[i] != '\0'; i++)
-        name[0] = tolower(name[i]);
+        name[i] = tolower(name[i]);
 }
 
 struct Student *addStudent(struct Student *stu, int *capacity, int *count)
