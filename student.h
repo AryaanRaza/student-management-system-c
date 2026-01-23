@@ -25,6 +25,7 @@ int searchByRoll(struct Student *stu, int count, int roll);
 void sortByRoll(struct Student *stu, int count);
 void deleteRoll(struct Student *stu, int *count, int roll);
 void sortByMarks(struct Student *stu, int count);
+void sortByName(struct Student *stu, int count);
 void normalizeName(char *name);
 
 #endif
