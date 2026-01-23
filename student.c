@@ -221,17 +221,24 @@ struct Student *addStudent(struct Student *stu, int *capacity, int *count)
 void viewStudent(struct Student *stu, int count)
 {
     printf("\n        ----------STUDENT DETAILS----------\n");
-    printf("Roll\tName\tMaths\tPhy\tChem\tTotal\tAvgerage\tGrade\n");
+    printf("\n%-6s %-20s ", "Roll", "Name");
+    printf("M1     M2     M3     ");
+    printf("%-6s %-8s %-5s\n", "Total", "Average", "Grade");
+
     for (int i = 0; i < count; i++)
     {
-        printf("%d\t", stu[i].roll);
-        printf("%s\t", stu[i].name);
-        for (int j = 0; j < 3; j++)
-            printf("%d\t", stu[i].marks[j]);
-        printf("%d\t", stu[i].total);
-        printf("%.2f\t\t", stu[i].avg);
-        printf("%c\t", stu[i].grade);
+        printf(
+            "%-6d %-20s ",
+            stu[i].roll,
+            stu[i].name);
 
-        printf("\n");
+        for (int j = 0; j < SUBJECTS; j++)
+            printf("%-6d ", stu[i].marks[j]);
+
+        printf(
+            "%-6d %-8.2f %-5c\n",
+            stu[i].total,
+            stu[i].avg,
+            stu[i].grade);
     }
 }
