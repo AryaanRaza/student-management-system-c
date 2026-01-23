@@ -1,13 +1,76 @@
 # Student Management System (C)
 
-A menu-driven student progress report system written in C.
+A modular, menu-driven **Student Management System** written in **C**, demonstrating
+core data-structures, file handling, and build automation using **Makefile**.
 
-## Features
+---
+
+## ✨ Features
+
+- Add, view, search, delete student records
+- Search by roll number or name
+- Sort students by roll number / total marks
+- Persistent storage using file handling
+- Modular project structure (`src/`, `include/`)
+- Makefile-based build system
+
+---
+
+## 🧱 Project Structure
+
+student-management-system-c/
+│
+├── src/
+│   ├── main.c
+│   ├── student.c
+│   ├── input.c
+│   └── file.c
+│
+├── include/
+│   ├── student.h
+│   ├── input.h
+│   └── file.h
+│
+├── .gitignore
+├── Makefile
+├── README.md
+└── students.txt
+
+
+---
+
+## ⚙️ Build & Run
+
+### Build
+
+make        ### Run
+make run    ### Clean
+
+
+---
+
+## 🧠 Concepts Used
+
+- Structures
 - Dynamic memory allocation
-- Safe input handling
-- Search by roll and name
-- Delete student records
-- Grade calculation
+- File I/O
+- Modular programming
+- Sorting algorithms
+- Makefile / build automation
 
-## Version
-v1.0 – Single file implementation
+---
+
+## 🚀 Future Improvements
+
+- Admin/User roles
+- Export to CSV
+- Unit tests
+- Authentication
+- GUI or web interface
+
+---
+
+## 👤 Author
+
+**Md Aryaan Raza**  
+Computer Science Student  

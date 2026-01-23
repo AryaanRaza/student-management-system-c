@@ -1,8 +1,9 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c11
+CFLAGS = -Wall -Wextra -std=c11 -Iinclude
 
 TARGET = sms
-SRCS = main.c student.c input.c file.c
+
+SRCS = src/main.c src/student.c src/input.c src/file.c
 OBJS = $(SRCS:.c=.o)
 
 all: $(TARGET)
@@ -17,6 +18,6 @@ run: $(TARGET)
 	./$(TARGET)
 
 clean:
-	rm -f *.o $(TARGET)
+	rm -f src/*.o $(TARGET)
 
 .PHONY: all run clean

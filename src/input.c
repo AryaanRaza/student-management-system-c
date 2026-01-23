@@ -5,6 +5,7 @@
 
 #include "input.h"
 
+
 int isNumber(char *str)
 {
     if (str[0] == '\0') // empty input
