@@ -114,7 +114,24 @@ void calculateResult(struct Student *s)
     else
         s->grade = 'F';
 }
-
+void sortByRoll(struct Student *stu, int count)
+{
+    for (int i = 0; i < count; i++)
+    {
+        int min = i;
+        for (int j = i + 1; j < count; j++)
+        {
+            if (stu[j].roll < stu[min].roll)
+                min = j;
+        }
+        if (min != i)
+        {
+            struct Student temp = stu[i];
+            stu[i] = stu[min];
+            stu[min] = temp;
+        }
+    }
+}
 struct Student *addStudent(struct Student *stu, int *capacity, int *count)
 {
 

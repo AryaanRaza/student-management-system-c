@@ -13,9 +13,8 @@ struct Student
     char grade;
 };
 
-int searchByRoll(struct Student *stu, int count, int roll);
+
 void searchByName(struct Student *stu, int count, char *name);
-void deleteRoll(struct Student *stu, int *count, int roll);
 void inputMarks(struct Student *stu, int i);
 void calculateResult(struct Student *s);
 struct Student *resizeStudents(struct Student *stu, int *capacity);
@@ -23,6 +22,7 @@ struct Student *addStudent(struct Student *stu, int *capacity, int *count);
 void viewStudent(struct Student *stu, int count);
 int safeInputInt(const char *prompt, int min, int max);
 int searchByRoll(struct Student *stu, int count, int roll);
-
+void sortByRoll(struct Student *stu, int count);
+void deleteRoll(struct Student *stu, int *count, int roll);
 
 #endif
