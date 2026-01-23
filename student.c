@@ -16,6 +16,7 @@ Author  : Md Aryaan Raza
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "student.h"
 #include "input.h"
@@ -116,7 +117,7 @@ void calculateResult(struct Student *s)
 }
 void sortByRoll(struct Student *stu, int count)
 {
-    for (int i = 0; i < count-1; i++)
+    for (int i = 0; i < count - 1; i++)
     {
         int min = i;
         for (int j = i + 1; j < count; j++)
@@ -134,7 +135,7 @@ void sortByRoll(struct Student *stu, int count)
 }
 void sortByMarks(struct Student *stu, int count)
 {
-    for (int i = 0; i < count-1; i++)
+    for (int i = 0; i < count - 1; i++)
     {
         int max = i;
         for (int j = i + 1; j < count; j++)
@@ -150,6 +151,35 @@ void sortByMarks(struct Student *stu, int count)
         }
     }
 }
+
+void sortByName(struct Student *stu, int count)
+{
+    for (int i = 0; i < count - 1; i++)
+    {
+        int min = i;
+        for (int j = i + 1; j < count; j++)
+        {
+            if (strcmp(stu[j].name, stu[min].name) < 0)
+                min = j;
+        }
+        if (min != i)
+        {
+            struct Student temp = stu[i];
+            stu[i] = stu[min];
+            stu[min] = temp;
+        }
+    }
+}
+
+void normalizeName(char *name)
+{
+    if (name[0] > 'a' && name[0] < 'z')
+        name[0] = toupper(name[0]);
+
+    for (int i = 1; name[i] != '\0'; i++)
+        name[0] = tolower(name[i]);
+}
+
 struct Student *addStudent(struct Student *stu, int *capacity, int *count)
 {
 
@@ -164,6 +194,7 @@ struct Student *addStudent(struct Student *stu, int *capacity, int *count)
     printf("        Name : ");
     fgets(stu[i].name, sizeof(stu[i].name), stdin);
     stu[i].name[strcspn(stu[i].name, "\n")] = '\0'; // remove newline
+    normalizeName(stu[i].name);
 
     /* Read unique roll number */
     while (1)
