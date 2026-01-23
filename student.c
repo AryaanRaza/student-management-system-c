@@ -116,7 +116,7 @@ void calculateResult(struct Student *s)
 }
 void sortByRoll(struct Student *stu, int count)
 {
-    for (int i = 0; i < count; i++)
+    for (int i = 0; i < count-1; i++)
     {
         int min = i;
         for (int j = i + 1; j < count; j++)
@@ -129,6 +129,24 @@ void sortByRoll(struct Student *stu, int count)
             struct Student temp = stu[i];
             stu[i] = stu[min];
             stu[min] = temp;
+        }
+    }
+}
+void sortByMarks(struct Student *stu, int count)
+{
+    for (int i = 0; i < count-1; i++)
+    {
+        int max = i;
+        for (int j = i + 1; j < count; j++)
+        {
+            if (stu[j].total > stu[max].total)
+                max = j;
+        }
+        if (max != i)
+        {
+            struct Student temp = stu[i];
+            stu[i] = stu[max];
+            stu[max] = temp;
         }
     }
 }

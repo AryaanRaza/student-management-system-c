@@ -25,8 +25,8 @@ int main()
     printf("\n      ----------MENU----------\n");
     while (1)
     {
-        printf("\n  1 to ADD\n  2 to View\n  3 to Search by name\n  4 to to Search by roll\n  5 to Delete\n  6 to Sort\n  7 to Exit");
-        choice = safeInputInt("\n Your choice : ", 1, 7);
+        printf("\n  1 to ADD\n  2 to View\n  3 to Search by name\n  4 to to Search by roll\n  5 to Delete\n  6 to Sort by Roll\n  7 to Sort by Marks(Descending)\n  8 to Exit");
+        choice = safeInputInt("\n Your choice : ", 1, 8);
 
         switch (choice)
         {
@@ -65,6 +65,11 @@ int main()
             break;
 
         case 7:
+            sortByMarks(stu,count);
+            saveStudentsToFile("students.txt", stu, count);
+            break;
+
+        case 8:
             saveStudentsToFile("students.txt", stu, count);
             printf("\nData saved. Exiting program.\n");
             free(stu);
